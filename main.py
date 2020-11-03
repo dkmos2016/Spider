@@ -4,14 +4,10 @@ import time
 import base64
 
 from utils.BaseSpider import BaseSpider
-from utils.Monitor import Monitor
+from consumer.Monitor import Monitor
 import globalvar
 from utils.LOGGER import LOGGER as logger
-from utils.Provider import Provider
-
-
-def test():
-    pass
+from provider.Provider import Provider
 
 
 data = 'Jslc!wPjTsPbDY8LHju5wYUjRtFDNYZXjmOBSPfviZ' \
@@ -46,14 +42,14 @@ if __name__ == '__main__':
     provider = Provider(r"H:\Workspace\pycharm\Spider\log")
     provider.start()
 
-    for i in xrange(30):
+    for i in xrange(10):
         monitor = Monitor()
         monitor.start()
         # monitor.start()
 
     while True:
         if threading.active_count() > 1:
-            logger.info("some threads not finish. Just waiting...")
+            logger.debug("some threads not finish. Just waiting...")
             time.sleep(10)
         else:
             break

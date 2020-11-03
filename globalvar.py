@@ -15,4 +15,4 @@ event = threading.Event()
 jobstate = JobState.ST_APPENDING
 
 lock = Lock()
-results = open('result.log', 'a')
+results = open('result.log', 'w')

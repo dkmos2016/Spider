@@ -1,7 +1,7 @@
 import threading
 import globalvar
 from time import sleep
-from LOGGER import LOGGER as logger
+from utils.LOGGER import LOGGER as logger
 from utils.common import JobState
 from Queue import Full
 
@@ -15,6 +15,8 @@ class Provider(threading.Thread):
     def procedure(self):
         for idx, line in enumerate(self._file.readlines()):
             line = line.replace('\n', '')
+            if idx < 51375:
+                continue
             # if globalvar.queue.full():
             #     logger.info("queue is full, waiting...")
             # else:
@@ -22,10 +24,10 @@ class Provider(threading.Thread):
             while True:
                 try:
                     globalvar.queue.put((idx+1, line), timeout=3)
-                    logger.info("put data {}, {}".format(idx, line))
+                    logger.debug("put data {}, {}".format(idx, line))
                     break
                 except Full as e:
-                    logger.info("queue is full, waiting...")
+                    logger.debug("queue is full, waiting...")
 
             if not globalvar.queue.empty():
                 globalvar.jobstate = JobState.ST_APPENDING
